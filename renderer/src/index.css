@@ -1,0 +1,54 @@
+body {
+  margin: 0;
+}
+video {
+  width: 100vw;
+  height: 100vh;
+  background: #ccc;
+  display: block;
+}
+.mes {
+  top: 20px;
+  right: 10px;
+  vertical-align: top;
+  position: fixed;
+  z-index: 10;
+  padding-left: 8px;
+  background: rgba(24, 24, 24, 0.486);
+  border-radius: 4px;
+}
+.box {
+  position: fixed;
+  z-index: 10;
+  left: 50%;
+  /* bottom: 10px; */
+  transform: translateX(-50%);
+}
+button {
+  border: none;
+  padding: 10px 20px;
+  margin: 8px;
+  background: rgb(16, 163, 231);
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+button:hover {
+  background: rgb(16, 117, 163);
+}
+
+#txt {
+  padding: 8px;
+  width: 220px;
+  border-radius: 5px;
+  border: none;
+}
+ul {
+  max-height: 300px;
+  overflow: auto;
+  margin: 0;
+}
+ul > li {
+  font-size: 14px;
+  color: rgb(226, 224, 224);
+}

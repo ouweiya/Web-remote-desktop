@@ -1,0 +1,43 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "license": "MIT",
+  "description": "dsds",
+  "author": "hu",
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "electron-builder": "^21.1.1",
+    "electron-reload": "^1.4.1"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=dev electron src",
+    "dist": "cross-env NODE_ENV=prod electron-builder",
+    "build": "cd ../renderer && yarn build && cp -r build/* ../main/build",
+    "ok": "yarn build && yarn dist",
+    "rebuild": "electron-rebuild -f -w yourmodule"
+  },
+  "build": {
+    "appId": "com.httpslocalhost",
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "productName": "one",
+    "extraResources": [
+      "tmp/**/*",
+      "data/*.db",
+      "build/**/*"
+    ],
+    "files": [
+      "src/**/*"
+    ]
+  },
+  "dependencies": {
+    "electron": "^5.0.8",
+    "electron-rebuild": "^1.8.5",
+    "prebuild-install": "^5.3.0",
+    "robotjs": "^0.5.1",
+    "win32-api": "^6.1.0",
+    "ws": "^7.1.1"
+  }
+}

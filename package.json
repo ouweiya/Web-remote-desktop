@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "electron-rebuild": "^1.8.5",
+    "robotjs": "^0.5.1",
+    "typeface-roboto": "^0.0.75",
+    "ws": "^7.1.1"
+  }
+}
