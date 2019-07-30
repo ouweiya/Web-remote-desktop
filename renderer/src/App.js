@@ -13,7 +13,7 @@ const App = _ => {
       <div className='mes'>
         <input type='text' id='txt' autoFocus />
         <button id='submit'>Submit</button>
-        <ul />
+        <ul id='ul' />
       </div>
     </>
   );

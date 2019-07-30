@@ -3,26 +3,21 @@
   "version": "1.0.0",
   "main": "./src/index.js",
   "license": "MIT",
-  "description": "dsds",
+  "description": "web远程桌面",
   "author": "hu",
-  "devDependencies": {
-    "cross-env": "^5.2.0",
-    "electron-builder": "^21.1.1",
-    "electron-reload": "^1.4.1"
-  },
   "scripts": {
     "start": "cross-env NODE_ENV=dev electron src",
     "dist": "cross-env NODE_ENV=prod electron-builder",
     "build": "cd ../renderer && yarn build && cp -r build/* ../main/build",
     "ok": "yarn build && yarn dist",
-    "rebuild": "electron-rebuild -f -w yourmodule"
+    "rebuild": "npm rebuild robotjs --runtime=electron --target=4.2.4 --disturl=https://atom.io/download/atom-shell --abi=69"
   },
   "build": {
     "appId": "com.httpslocalhost",
     "mac": {
       "category": "public.app-category.developer-tools"
     },
-    "productName": "one",
+    "productName": "Web remote desktop",
     "extraResources": [
       "tmp/**/*",
       "data/*.db",
@@ -33,11 +28,14 @@
     ]
   },
   "dependencies": {
-    "electron": "^5.0.8",
-    "electron-rebuild": "^1.8.5",
-    "prebuild-install": "^5.3.0",
     "robotjs": "^0.5.1",
-    "win32-api": "^6.1.0",
     "ws": "^7.1.1"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.8.5",
+    "cross-env": "^5.2.0",
+    "electron": "4.2.4",
+    "electron-builder": "^21.1.1",
+    "electron-reload": "^1.4.1"
   }
 }

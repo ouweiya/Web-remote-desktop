@@ -3,7 +3,9 @@ const robot = require('robotjs');
 console.log(process.versions);
 
 const load = _ => {
-  const ws = new WebSocket('ws://localhost:8080');
+  const url = 'ws://66.42.68.93:7777';
+  const ws = new WebSocket(url);
+  // const ws = new WebSocket('ws://localhost:7777');
   ws.onerror = err => console.error(err);
 
   let handleOffer = null;
@@ -59,11 +61,11 @@ const load = _ => {
       let stream = null;
       const c = new RTCPeerConnection(configuration);
 
-      desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+      const streamHandler = (a, sources) => {
         for (const source of sources) {
           if (source.name === 'Entire screen') {
-            try {
-              const res = await navigator.mediaDevices.getUserMedia({
+            navigator.mediaDevices
+              .getUserMedia({
                 audio: false,
                 video: {
                   mandatory: {
@@ -75,50 +77,54 @@ const load = _ => {
                     maxHeight: 720
                   }
                 }
-              });
-              stream = res;
-              c.addStream(res);
-              document.querySelector('video').srcObject = res;
-              c.onicecandidate = e => {
-                if (e.candidate) {
-                  ice = e.candidate;
-                  console.log(e.candidate);
-                  ws.send(JSON.stringify({ type: 'candidate', candidate: ice }));
-                }
-              };
-              main = c.createDataChannel('hello-1.html');
-              c.ondatachannel = e => {
-                const res = e.channel;
-                res.onmessage = e => {
-                  const li = document.createElement('li');
-                  const mes = JSON.parse(e.data);
-                  console.log(mes);
-
-                  if (mes.type === 'point') {
-                    const { x, y } = mes.point;
-                    console.log(x, y);
-                    // robot.moveMouse(x, y);
-                  } else if (mes.type === 'click') {
-                    console.log('click');
-                  } else {
-                    li.textContent = `对方: ${e.data}`;
-                    ul.append(li);
+              })
+              .then(res => {
+                stream = res;
+                c.addStream(res);
+                document.querySelector('video').srcObject = res;
+                c.onicecandidate = e => {
+                  if (e.candidate) {
+                    ice = e.candidate;
+                    console.log(e.candidate);
+                    ws.send(JSON.stringify({ type: 'candidate', candidate: ice }));
                   }
                 };
-                res.onopen = e => console.log('通道打开了');
-              };
-              c.createOffer().then(offer => {
-                c.setLocalDescription(offer);
-                o = offer;
-                console.log(o);
-                ws.send(JSON.stringify(o));
+                main = c.createDataChannel('hello-1.html');
+                c.ondatachannel = e => {
+                  const res = e.channel;
+                  res.onmessage = e => {
+                    const li = document.createElement('li');
+                    const mes = JSON.parse(e.data);
+                    console.log(mes);
+
+                    if (mes.type === 'point') {
+                      const { x, y } = mes.point;
+                      console.log(x, y);
+                      robot.moveMouse(x, y);
+                    } else if (mes.type === 'click') {
+                      console.log('click');
+                      robot.mouseClick();
+                    } else {
+                      li.textContent = `对方: ${mes}`;
+                      ul.append(li);
+                      ul.scrollTo(0, ul.scrollHeight);
+                    }
+
+                  };
+                  res.onopen = e => console.log('通道打开了');
+                };
+                c.createOffer().then(offer => {
+                  c.setLocalDescription(offer);
+                  o = offer;
+                  console.log(o);
+                  ws.send(JSON.stringify(o));
+                });
               });
-            } catch (e) {
-              console.log(error.name, error);
-            }
           }
         }
-      });
+      };
+
+      desktopCapturer.getSources({ types: ['window', 'screen'] }, streamHandler);
 
       handleAnswer = answer => {
         c.setRemoteDescription(new RTCSessionDescription(answer));
@@ -145,6 +151,8 @@ const load = _ => {
       li.textContent = `我: ${txt.value}`;
       ul.append(li);
       txt.value = '';
+
+      ul.scrollTo(0, ul.scrollHeight);
     });
   } else {
     document.querySelector('#start').style.display = 'none';
@@ -219,4 +227,3 @@ const load = _ => {
 };
 
 document.addEventListener('DOMContentLoaded', load);
-// npm rebuild robotjs --update-binary

@@ -1,8 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-// process.env.NODE_ENV === 'dev' && require('electron-reload')(__dirname);
-// const { ipcMain } = require('electron');
-// const robot = require('robotjs');
+process.env.NODE_ENV === 'dev' && require('electron-reload')(__dirname);
 
 let win;
 const createWindow = _ => {
@@ -15,22 +13,27 @@ const createWindow = _ => {
       preload: __dirname + '/preload.js'
     }
   });
-
+  // win.loadURL('http://localhost:3000')
   process.env.NODE_ENV === 'dev'
-    ? win.loadURL('http://localhost:3000')
+    ? win.loadFile(`${__dirname}/../build/index.html`)
     : win.loadURL(`file://${process.resourcesPath}/build/index.html`);
 
-  win.webContents.openDevTools();
+  // win.loadURL(`file://${process.resourcesPath}/build/index.html`);
+  // win.loadURL(`build/index.html`);
+  // win.loadFile(`file://${process.resourcesPath}/build/index.html`);
+
+
+  // win.webContents.openDevTools();
   win.on('closed', _ => (win = null));
 
-  const React = `C:/Users/dell/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.6.0_0`;
+  // const React = `C:/Users/dell/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.6.0_0`;
   // const Redux = `C:/Users/dell/AppData/Local/Google/Chrome/User Data/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0`;
-  BrowserWindow.addDevToolsExtension(React);
+  // BrowserWindow.addDevToolsExtension(React);
   // BrowserWindow.addDevToolsExtension(Redux);
   // BrowserWindow.removeExtension('Redux DevTools');
   // BrowserWindow.removeExtension('Translation fix');
 
-  console.log(BrowserWindow.getExtensions());
+  // console.log(BrowserWindow.getExtensions());
 };
 
 app.on('ready', createWindow);
