@@ -1,4 +1,7 @@
-dsdsd
+
+# 控制方
+http://66.42.68.93/
 
 
-$ npm rebuild robotjs --runtime=electron --target=4.2.4 --disturl=https://atom.io/download/atom-shell --abi=69
+# 被控制方
+[]()
