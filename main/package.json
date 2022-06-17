@@ -34,7 +34,7 @@
   "devDependencies": {
     "electron-rebuild": "^1.8.5",
     "cross-env": "^5.2.0",
-    "electron": "4.2.4",
+    "electron": "15.5.5",
     "electron-builder": "^21.1.1",
     "electron-reload": "^1.4.1"
   }
